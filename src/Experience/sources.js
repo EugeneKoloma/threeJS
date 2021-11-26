@@ -25,5 +25,10 @@ export default [
         name: 'foxModel',
         type: 'gltfModel',
         path: 'models/Fox/glTF/Fox.gltf'
+    },
+    {
+        name: 'interfaceNormalMap',
+        type: 'texture',
+        path: 'textures/interfaceNormalMap.png'
     }
 ]

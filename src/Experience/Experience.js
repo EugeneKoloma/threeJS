@@ -48,12 +48,19 @@ export default class Experience {
     resize() {
         this.camera.resize()
         this.renderer.resize()
+        if (this.world.effects) {
+            this.world.effects.resize()
+        }
     }
 
     update() {
         this.camera.update()
         this.world.update()
-        this.renderer.update()
+        if (this.world.effects) {
+            this.world.update()
+        } else {
+            this.renderer.update()
+        }
     }
 
     destroy() {
@@ -67,7 +74,7 @@ export default class Experience {
 
                 for (const key in child.material) {
                     const value = child.material[key]
-                    
+
                     if (value && typeof value.dispose === 'function') {
                         value.dispose()
                     }
@@ -78,6 +85,10 @@ export default class Experience {
         this.camera.controls.dispose()
         this.renderer.instance.dispose()
         
+        if (this.world.effects) {
+            this.world.effects.renderTarget.dispose()
+        }
+
         if (this.debug.active) {
             this.debug.ui.destroy()
         }

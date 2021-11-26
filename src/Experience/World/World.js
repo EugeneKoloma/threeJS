@@ -1,4 +1,5 @@
 import Experience from "../Experience";
+import Effects from "./Effects";
 import Environment from './Enviroment';
 import Floor from './Floor';
 import Fox from './Fox';
@@ -13,6 +14,7 @@ export default class World {
             // Setup
             this.floor = new Floor()
             this.fox = new Fox()
+            // this.effects = new Effects()
             this.environment = new Environment()
         })
     }
@@ -20,6 +22,9 @@ export default class World {
     update() {
         if (this.fox) {
             this.fox.update()
+        }
+        if (this.effects) {
+            this.effects.update()
         }
     }
 }
