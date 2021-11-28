@@ -36,6 +36,7 @@ export default class Experience {
     this.world = new World();
 
     this.setStats();
+    
 
     // Events Emitter
     this.sizes.on("resize", () => {
