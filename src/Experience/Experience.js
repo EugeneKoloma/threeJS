@@ -35,7 +35,7 @@ export default class Experience {
     this.renderer = new Renderer();
     this.world = new World();
 
-    this.setStats();
+    // this.setStats();
     
 
     // Events Emitter
@@ -60,13 +60,13 @@ export default class Experience {
   }
 
   update() {
-    this.stats.begin();
+    // this.stats.begin();
 
     this.camera.update();
     this.world.update();
     this.renderer.update();
 
-    this.stats.end();
+    // this.stats.end();
   }
 
   destroy() {

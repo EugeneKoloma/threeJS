@@ -1,63 +1,71 @@
-import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import EventEmitter from "./EventEmiter"
+import { gsap } from "gsap";
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import EventEmitter from "./EventEmiter";
 
-export default class Resources extends EventEmitter{
-    constructor(sources) {
-        super()
-        
-        // Options
-        this.sources    = sources
+export default class Resources extends EventEmitter {
+  constructor(sources) {
+    super();
 
-        // Setup
-        this.items      = {}
-        this.toLoad     = this.sources.length
-        this.loaded     = 0
+    // Options
+    this.sources = sources;
 
-        this.setLoaders()
-        this.setLoading()
+    // Setup
+    this.items = {};
+    this.progressBar = document.querySelector(".loading-bar");
+
+    this.setLoadingManager();
+    this.setLoaders();
+    this.setLoading();
+  }
+
+  setLoadingManager() {
+    this.loadingManager = new THREE.LoadingManager(
+      () => {
+        gsap.delayedCall(0.5, () => {
+          this.progressBar.classList.add("loaded");
+          this.progressBar.style.transform = "";
+        });
+        this.trigger("ready");
+      },
+      (_, loaded, total) => {
+        const progressRation = loaded / total;
+        this.progressBar.style.transform = `scaleX(${progressRation})`;
+        console.log(progressRation);
+      }
+    );
+  }
+
+  setLoaders() {
+    this.loaders = {};
+    this.loaders["gltfLoader"] = new GLTFLoader(this.loadingManager);
+    this.loaders["textureLoader"] = new THREE.TextureLoader(
+      this.loadingManager
+    );
+    this.loaders["cubeTextureLoader"] = new THREE.CubeTextureLoader(
+      this.loadingManager
+    );
+  }
+
+  setLoading() {
+    for (const source of this.sources) {
+      if (source.type === "gltfModel") {
+        this.loaders["gltfLoader"].load(source.path, (file) => {
+          this.sourceLoaded(source, file);
+        });
+      } else if (source.type === "texture") {
+        this.loaders["textureLoader"].load(source.path, (file) => {
+          this.sourceLoaded(source, file);
+        });
+      } else if (source.type === "cubeTexture") {
+        this.loaders["cubeTextureLoader"].load(source.path, (file) => {
+          this.sourceLoaded(source, file);
+        });
+      }
     }
+  }
 
-    setLoaders() {
-        this.loaders = {}
-        this.loaders['gltfLoader']          = new GLTFLoader()
-        this.loaders['textureLoader']       = new THREE.TextureLoader()
-        this.loaders['cubeTextureLoader']   = new THREE.CubeTextureLoader()
-    }
-
-    setLoading() {
-        for(const source of this.sources) {
-            if (source.type === 'gltfModel') {
-                this.loaders['gltfLoader'].load(
-                    source.path,
-                    (file) => {
-                        this.sourceLoaded(source, file)
-                    }
-                )
-            } else if (source.type === 'texture') {
-                this.loaders['textureLoader'].load(
-                    source.path,
-                    (file) => {
-                        this.sourceLoaded(source, file)
-                    }
-                )
-            } else if (source.type === 'cubeTexture') {
-                this.loaders['cubeTextureLoader'].load(
-                    source.path,
-                    (file) => {
-                        this.sourceLoaded(source, file)
-                    }
-                )
-            } 
-        }
-    }
-
-    sourceLoaded(source, file) {
-        this.items[source.name] = file
-        this.loaded++
-
-        if (this.loaded === this.toLoad) {
-            this.trigger('ready')
-        }
-    }
+  sourceLoaded(source, file) {
+    this.items[source.name] = file;
+  }
 }
