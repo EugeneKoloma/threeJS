@@ -31,7 +31,6 @@ export default class Resources extends EventEmitter {
       (_, loaded, total) => {
         const progressRation = loaded / total;
         this.progressBar.style.transform = `scaleX(${progressRation})`;
-        console.log(progressRation);
       }
     );
   }

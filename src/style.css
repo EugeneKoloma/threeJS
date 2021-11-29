@@ -31,3 +31,49 @@ body {
   transform-origin: top right;
   transition: transform 1.5s ease-in-out;
 }
+
+.point {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.point:hover .text {
+  opacity: 1;
+}
+
+.point.visible .label {
+  transform: scale(1, 1);
+}
+
+.point .label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.4);
+  cursor: help;
+  transform: scale(0, 0);
+  transition: transform 0.5s;
+}
+
+.point .text {
+  position: absolute;
+  top: 30px;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  left: -100px;
+  max-width: 200px;
+  background-color: #00000077;
+  color: #ffffff;
+  list-style: 1.3em;
+  font-weight: 100;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+}

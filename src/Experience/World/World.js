@@ -1,4 +1,5 @@
 import Experience from "../Experience";
+import Points from "../Points";
 import Environment from "./Enviroment";
 import Floor from "./Floor";
 import Fox from "./Fox";
@@ -18,12 +19,16 @@ export default class World {
       this.fox = new Fox();
       this.environment = new Environment();
       this.overlay.updateOnLoaded();
+      this.points = new Points()
     });
   }
 
   update() {
     if (this.fox) {
       this.fox.update();
+    }
+    if (this.points) {
+      this.points.update()
     }
   }
 }
