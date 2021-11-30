@@ -4,6 +4,7 @@ import Environment from "./Enviroment";
 import Floor from "./Floor";
 import Fox from "./Fox";
 import Overlay from "./Overlay";
+import Portal from "./Portal";
 
 export default class World {
   constructor() {
@@ -15,11 +16,12 @@ export default class World {
 
     this.resourses.on("ready", () => {
       // Setup
-      this.floor = new Floor();
-      this.fox = new Fox();
-      this.environment = new Environment();
+      // this.floor = new Floor();
+      // this.fox = new Fox();
+      // this.environment = new Environment();
+      this.portal = new Portal();
       this.overlay.updateOnLoaded();
-      this.points = new Points()
+      // this.points = new Points()
     });
   }
 
