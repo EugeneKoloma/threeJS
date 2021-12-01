@@ -1,9 +1,6 @@
 import Experience from "../Experience";
-import Points from "../Points";
 import Environment from "./Enviroment";
 import Fireflies from "./Fireflies";
-import Floor from "./Floor";
-import Fox from "./Fox";
 import Overlay from "./Overlay";
 import Portal from "./Portal";
 
@@ -16,23 +13,18 @@ export default class World {
     this.overlay = new Overlay();
 
     this.resourses.on("ready", () => {
-      // Setup
-      // this.floor = new Floor();
-      // this.fox = new Fox();
-      // this.environment = new Environment();
       this.portal = new Portal();
       this.fireflies = new Fireflies();
       this.overlay.updateOnLoaded();
-      // this.points = new Points()
     });
   }
 
   update() {
-    if (this.fox) {
-      this.fox.update();
+    if (this.portal) {
+      this.portal.update();
     }
-    if (this.points) {
-      this.points.update()
+    if (this.fireflies) {
+      this.fireflies.update();
     }
   }
 }

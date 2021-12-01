@@ -23,15 +23,19 @@ export default class Resources extends EventEmitter {
   setLoadingManager() {
     this.loadingManager = new THREE.LoadingManager(
       () => {
-        gsap.delayedCall(0.5, () => {
-          this.progressBar.classList.add("loaded");
-          this.progressBar.style.transform = "";
-        });
+        if (this.progressBar) {
+          gsap.delayedCall(0.5, () => {
+            this.progressBar.classList.add("loaded");
+            this.progressBar.style.transform = "";
+          });
+        }
         this.trigger("ready");
       },
       (_, loaded, total) => {
-        const progressRation = loaded / total;
-        this.progressBar.style.transform = `scaleX(${progressRation})`;
+        if (this.progressBar) {
+          const progressRation = loaded / total;
+          this.progressBar.style.transform = `scaleX(${progressRation})`;
+        }
       }
     );
   }
@@ -63,10 +67,10 @@ export default class Resources extends EventEmitter {
         this.loaders["cubeTextureLoader"].load(source.path, (file) => {
           this.sourceLoaded(source, file);
         });
-      } else if (source.type === 'dracoGLTF') {
-        this.loaders['dracoLoader'].load(source.path, (file) => {
+      } else if (source.type === "dracoGLTF") {
+        this.loaders["dracoLoader"].load(source.path, (file) => {
           this.sourceLoaded(source, file);
-        })
+        });
       }
     }
   }

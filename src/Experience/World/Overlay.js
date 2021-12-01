@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import Experience from "../Experience";
 import { gsap } from "gsap";
+import vertexShader from "../Shaders/Overlay/vertex.glsl";
+import fragmentShader from "../Shaders/Overlay/fragment.glsl";
 
 export default class Overlay {
   constructor() {
@@ -17,24 +19,15 @@ export default class Overlay {
       uniforms: {
         uAlpha: { value: 1 },
       },
-      vertexShader: `
-        void main() {
-          gl_Position = vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform float uAlpha;
-
-        void main() {
-          gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
-        }
-      `,
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      depthWrite: false,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.scene.add(this.mesh);
   }
 
   updateOnLoaded() {
-    gsap.to(this.material.uniforms.uAlpha, { duration: 3, value: 0 });
+    gsap.to(this.material.uniforms.uAlpha, { duration: 2, value: 0 });
   }
 }
